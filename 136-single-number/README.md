@@ -1,3 +1,29 @@
+# Single Number
+
+<h2><a href="https://leetcode.com/problems/single-number">Single Number</a></h2>
+
+<img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' />
+
+<hr>
+
+### Question
+
+Given a non-empty array of integers `nums`, every element appears **twice** except for one. Find that single element.
+
+The solution must have **O(n) time complexity** and **O(1) extra space**.
+
+### Examples
+```text
+Input:  nums = [2,2,1]
+Output: 1
+
+Input:  nums = [4,1,2,1,2]
+Output: 4
+
+Input:  nums = [1]
+Output: 1
+```
+
 ## <h2><a href="https://leetcode.com/problems/single-number">Single Number</a></h2>
 
 <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' />
