@@ -38,9 +38,36 @@ So nums is rearranged to [1,-1].
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 2 * 10<sup>5</sup></code></li>
 	<li><code>nums.length</code> is <strong>even</strong></li>
+
+	
 	<li><code>1 &lt;= |nums[i]| &lt;= 10<sup>5</sup></code></li>
 	<li><code>nums</code> consists of <strong>equal</strong> number of positive and negative integers.</li>
 </ul>
+## Approaches
+
+### 1. Brute Force — Separate + Rearrange
+- Store positive elements in `pos`.
+- Store negative elements in `neg`.
+- Place positives at even indices: `0, 2, 4...`
+- Place negatives at odd indices: `1, 3, 5...`
+- Relative order is maintained.
+- **Time:** `O(N)`
+- **Space:** `O(N)`
+
+### 2. Optimal — Single Pass
+- Create a result array `ans`.
+- Start `posIndex = 0` and `negIndex = 1`.
+- Traverse the array once.
+- Positive → place at `posIndex`, then `posIndex += 2`.
+- Negative → place at `negIndex`, then `negIndex += 2`.
+- **Time:** `O(N)`
+- **Space:** `O(N)`
+
+### Key Idea
+
+```text
+Positive → even indices → 0, 2, 4, ...
+Negative → odd indices  → 1, 3, 5, ...
 
 <p>&nbsp;</p>
 It is not required to do the modifications in-place.
