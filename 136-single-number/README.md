@@ -1,37 +1,48 @@
-<h2><a href="https://leetcode.com/problems/single-number">Single Number</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given a <strong>non-empty</strong>&nbsp;array of integers <code>nums</code>, every element appears <em>twice</em> except for one. Find that single one.</p>
+## <h2><a href="https://leetcode.com/problems/single-number">Single Number</a></h2>
 
-<p>You must&nbsp;implement a solution with a linear runtime complexity and use&nbsp;only constant&nbsp;extra space.</p>
+<img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' />
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+### Concepts
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,2,1]</span></p>
+#### 1. Brute Force — 2 Loops
+- Take each `val = nums[i]`.
+- Count its occurrences using another loop.
+- If `count == 1`, return `val`.
+- Time: `O(n²)`
+- Space: `O(1)`
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
-</div>
+#### 2. HashMap
+- Store each element with its frequency.
+- Return the element whose frequency is `1`.
+- Time: `O(n)`
+- Space: `O(n)`
 
-<p><strong class="example">Example 2:</strong></p>
+#### 3. Hash Array
+- Use the element as an index.
+- Increment its frequency using `hash[nums[i]]++`.
+- Find the index where frequency is `1`.
+- Time: `O(n)`
+- Space: `O(range of values)`
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,1,2,1,2]</span></p>
+#### 4. XOR — Optimal
+- `x ^ x = 0`
+- `x ^ 0 = x`
+- Duplicate elements cancel each other.
+- The remaining value is the single number.
+- Time: `O(n)`
+- Space: `O(1)`
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
-</div>
+### Solution
 
-<p><strong class="example">Example 3:</strong></p>
+```java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int x = nums[0];
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1]</span></p>
+        for (int i = 1; i < nums.length; i++) {
+            x ^= nums[i];
+        }
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
-</div>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
-
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-3 * 10<sup>4</sup> &lt;= nums[i] &lt;= 3 * 10<sup>4</sup></code></li>
-	<li>Each element in the array appears twice except for one element which appears only once.</li>
-</ul>
+        return x;
+    }
+}
