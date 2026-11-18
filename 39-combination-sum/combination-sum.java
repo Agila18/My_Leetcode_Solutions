@@ -1,40 +1,20 @@
 class Solution {
-
-private void generateSubset(int i,int target,int[] arr,int sum,List<Integer> ds,List<List<Integer>> ans){
-    if(i==arr.length){
-        if(sum==target) ans.add(new ArrayList<>(ds));
-        return;
-    }
-     // Base case: target reached
-        if (sum == target) {
-            ans.add(new ArrayList<>(ds));
+    private void findCombinations(int i,int target,int[] arr,List<Integer> ds,List<List<Integer>> ans){
+        if(i==arr.length){
+            if(target==0)   ans.add(new ArrayList<>(ds));
             return;
         }
-
-        // No more candidates
-        if (i == arr.length) {
-            return;
-        }
-
-        // Pick: reuse the same element
-        if (sum + arr[i] <= target) {
+        //Pick
+        if(arr[i]<=target){
             ds.add(arr[i]);
-            sum += arr[i];
-
-            generateSubset(i, target, arr, sum, ds, ans);
-
-            // Backtracking
-            ds.remove(ds.size() - 1);
-            sum -= arr[i];
+            findCombinations(i,target-arr[i],arr,ds,ans);
+            ds.remove(ds.size()-1);
         }
-
-        // Not pick: move to next element
-        generateSubset(i + 1, target, arr, sum, ds, ans);
-} 
-public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<Integer> ds=new ArrayList<>();
+        findCombinations(i+1,target,arr,ds,ans);
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> ans=new ArrayList<>();
-        generateSubset(0,target,candidates,0,ds,ans);
+        findCombinations(0,target,candidates,new ArrayList<>(),ans);
         return ans;
     }
 }
