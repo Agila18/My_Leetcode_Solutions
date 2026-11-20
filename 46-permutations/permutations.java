@@ -1,26 +1,33 @@
 class Solution {
-    private void recursePermute(List<Integer>ds,boolean[] map,int[] arr,List<List<Integer>> ans){
-        if(ds.size()==arr.length){
-            ans.add(new ArrayList<>(ds));
+    //APPROACH-2: Swapping instead of an extra map array
+    private void swap(int[] arr,int i, int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+    private void recursePermute(int index,int[] arr,List<List<Integer>> ans){
+        if(index==arr.length){
+            //Copy array to an other ds to avoid object references issues in future
+            List<Integer> ds=new ArrayList<>();
+            for(int i=0;i<arr.length;i++){
+                ds.add(arr[i]);
+            }
+            ans.add(ds);
             return;
         }
-        for(int i=0;i<arr.length;i++){
-            if(!map[i]){
-                map[i]=true;
-                ds.add(arr[i]);
-                recursePermute(ds,map,arr,ans);
-
-                ds.remove(ds.size()-1);
-                map[i]=false;
-            }
-
+        for(int i=index;i<arr.length;i++){
+            //Swap for recursion
+            swap(arr,i,index);
+            recursePermute(index+1,arr,ans);
+            //re-Swap for Backtracking
+            swap(arr,i,index);
         }
+    }
 
-    } 
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans=new ArrayList<>();
-        boolean[] map=new boolean[nums.length];
-        recursePermute(new ArrayList<Integer>(),map,nums,ans);
+        recursePermute(0,nums,ans);
         return ans;
+        
     }
 }
