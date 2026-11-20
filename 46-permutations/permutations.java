@@ -17,10 +17,10 @@ class Solution {
         }
         for(int i=index;i<arr.length;i++){
             //Swap for recursion
-            swap(arr,i,index);
+           if(index!= i) swap(arr,i,index);
             recursePermute(index+1,arr,ans);
             //re-Swap for Backtracking
-            swap(arr,i,index);
+            if(index!=i) swap(arr,i,index);
         }
     }
 
