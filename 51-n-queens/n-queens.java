@@ -1,37 +1,5 @@
 class Solution {
-    boolean isSafe(int col,int row,char[][] board,int n){
-        //Check Upper diagonal
-        int duprow=row;
-        int dupcol=col;
-        while(row>=0 && col>=0){
-            if(board[row][col]=='Q'){
-                return false;
-            }
-            row--;
-            col--;
-        }
-        //Check leftwards
-        row=duprow;
-        col=dupcol;
-        while(col>=0){
-            if(board[row][col]=='Q'){
-                return false;
-            }
-            col--;
-        }
-        //Check Lower diagonal
-        row=duprow;
-        col=dupcol;
-        while(row<n && col>=0){
-            if(board[row][col]=='Q'){
-                return false;
-            }
-            row++;
-            col--;
-        }
-        return true;
-    }
-    private void recurseNQueens(int col,char[][] board,List<List<String>> ans,int n){
+    private void recurseNQueens(int col,char[][] board,List<List<String>> ans,int n,int[] leftRow,int[] upper,int[]lower){
         if(col==n){
             List<String> ds=new ArrayList<>();
             for(int i=0;i<board.length;i++){
@@ -42,11 +10,18 @@ class Solution {
             return;
         }
         for(int row=0;row<n;row++){
-            if(isSafe(col,row,board,n)){
+            if(leftRow[row]==0 && upper[row+col]==0 && lower[(n-1)+(row-col)]==0){
                 board[row][col]='Q';
-                recurseNQueens(col+1,board,ans,n);
-                board[row][col]='.';
+                leftRow[row]=1;
+                upper[row+col]=1;
+                lower[(n-1)+(row-col)]=1;
+                recurseNQueens(col+1,board,ans,n,leftRow,upper,lower);
+                 board[row][col]='.';
+                leftRow[row]=0;
+                upper[row+col]=0;
+                lower[(n-1)+(row-col)]=0;
             }
+            
         }
 
     }
@@ -56,7 +31,13 @@ class Solution {
         for(int i=0;i<n;i++){
             Arrays.fill(board[i],'.');
         }
-        recurseNQueens(0,board,ans,n);
+        int[] leftRow=new int[n];
+        Arrays.fill(leftRow,0);
+        int[] upperDiagonal=new int[2*n-1];
+        Arrays.fill(upperDiagonal,0);
+        int[] lowerDiagonal=new int[2*n-1];
+        Arrays.fill(lowerDiagonal,0);
+        recurseNQueens(0,board,ans,n,leftRow,upperDiagonal,lowerDiagonal);
         return ans;
     }
 }
